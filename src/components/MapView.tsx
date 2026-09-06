@@ -78,10 +78,16 @@ type Props = {
   theme?: Theme;
 };
 
-const TILE_LIGHT =
-  "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
-const TILE_DARK =
-  "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
+// CARTO's raster basemaps now require a free API key (their previously-open
+// anonymous access was retired in 2026). Get one at https://carto.com/basemaps/apikey/
+// (no credit card, 5M tile requests/month free) and set VITE_CARTO_API_KEY in .env.
+// Without a key the tiles still load but are watermarked "API KEY REQUIRED".
+const CARTO_KEY = import.meta.env.VITE_CARTO_API_KEY as string | undefined;
+const cartoUrl = (style: "light_all" | "dark_all") =>
+  `https://{s}.basemaps.cartocdn.com/${style}/{z}/{x}/{y}{r}.png` +
+  (CARTO_KEY ? `?key=${CARTO_KEY}` : "");
+const TILE_LIGHT = cartoUrl("light_all");
+const TILE_DARK = cartoUrl("dark_all");
 
 export function MapView({ venues, selectedId, onSelect, theme = "light" }: Props) {
   const selected = venues.find((v) => v.id === selectedId) ?? null;
