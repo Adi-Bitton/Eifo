@@ -7,10 +7,9 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
   return (
@@ -34,12 +33,9 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: { error: unknown; reset: () => void }) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -82,17 +78,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover",
       },
       { name: "theme-color", content: "#ffffff" },
-      { name: "og:type", content: "website" },
-      { title: "Lovable App" },
-      { property: "og:title", content: "Lovable App" },
-      { name: "twitter:title", content: "Lovable App" },
+      { property: "og:type", content: "website" },
+      { title: "Eifo?" },
+      { property: "og:title", content: "Eifo?" },
+      { name: "twitter:title", content: "Eifo?" },
       { name: "description", content: "Eifo? is a mobile-first web app for finding local food and drink deals." },
       { property: "og:description", content: "Eifo? is a mobile-first web app for finding local food and drink deals." },
       { name: "twitter:description", content: "Eifo? is a mobile-first web app for finding local food and drink deals." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/6e369a2e-e116-4385-959b-2f4e0785ec81/id-preview-a5b6dd63--1dbb95c7-6bae-4ab0-95d2-c16eb4b71108.lovable.app-1781974309145.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/6e369a2e-e116-4385-959b-2f4e0785ec81/id-preview-a5b6dd63--1dbb95c7-6bae-4ab0-95d2-c16eb4b71108.lovable.app-1781974309145.png" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:type", content: "website" },
+      // TODO: add a real og/twitter preview image once we're hosting our own
+      // (the previous one pointed at a Lovable-hosted preview screenshot).
+      { name: "twitter:card", content: "summary" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
