@@ -8,24 +8,55 @@ import type { HourlyPerformance } from "./types";
  */
 const ARCHETYPE_SHAPES: Record<string, Partial<Record<number, number>>> = {
   cafe: {
-    8: 0.55, 9: 0.75, 10: 0.85, 11: 0.7,
-    12: 0.9, 13: 1.0, 14: 0.6,
-    15: 0.35, 16: 0.3, 17: 0.3,
-    18: 0.4, 19: 0.35, 20: 0.25,
+    8: 0.55,
+    9: 0.75,
+    10: 0.85,
+    11: 0.7,
+    12: 0.9,
+    13: 1.0,
+    14: 0.6,
+    15: 0.35,
+    16: 0.3,
+    17: 0.3,
+    18: 0.4,
+    19: 0.35,
+    20: 0.25,
   },
   bar: {
-    16: 0.15, 17: 0.25, 18: 0.4,
-    19: 0.5, 20: 0.6, 21: 0.85,
-    22: 1.0, 23: 0.95, 0: 0.7, 1: 0.4,
+    16: 0.15,
+    17: 0.25,
+    18: 0.4,
+    19: 0.5,
+    20: 0.6,
+    21: 0.85,
+    22: 1.0,
+    23: 0.95,
+    0: 0.7,
+    1: 0.4,
   },
   restaurant: {
-    12: 0.65, 13: 0.85, 14: 0.55,
-    15: 0.2, 16: 0.15, 17: 0.2,
-    18: 0.45, 19: 0.8, 20: 1.0, 21: 0.9, 22: 0.55,
+    12: 0.65,
+    13: 0.85,
+    14: 0.55,
+    15: 0.2,
+    16: 0.15,
+    17: 0.2,
+    18: 0.45,
+    19: 0.8,
+    20: 1.0,
+    21: 0.9,
+    22: 0.55,
   },
 };
 
 export type Archetype = keyof typeof ARCHETYPE_SHAPES;
+
+/** Open hours per archetype — shared by the demo script and the admin's "generate a demo recommendation" action. */
+export const ARCHETYPE_OPEN_HOURS: Record<Archetype, number[]> = {
+  cafe: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+  bar: [16, 17, 18, 19, 20, 21, 22, 23, 0, 1],
+  restaurant: [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
+};
 
 function mulberry32(seed: number) {
   let a = seed;

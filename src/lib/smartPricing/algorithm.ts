@@ -75,8 +75,7 @@ export function computeMonthlyRecommendation(params: {
           ? realDataWeight * dataStrength + (1 - realDataWeight) * priorStrength
           : priorStrength;
 
-      const rawDiscount =
-        maxDiscountPct - relativeStrength * (maxDiscountPct - minDiscountPct);
+      const rawDiscount = maxDiscountPct - relativeStrength * (maxDiscountPct - minDiscountPct);
 
       const current = currentDiscountPct[hour];
       const rateLimited =
@@ -84,9 +83,7 @@ export function computeMonthlyRecommendation(params: {
           ? rawDiscount
           : clamp(rawDiscount, current - maxMonthlyChangePct, current + maxMonthlyChangePct);
 
-      const recommendedDiscountPct = Math.round(
-        clamp(rateLimited, minDiscountPct, maxDiscountPct),
-      );
+      const recommendedDiscountPct = Math.round(clamp(rateLimited, minDiscountPct, maxDiscountPct));
 
       return {
         hour,

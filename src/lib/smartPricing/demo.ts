@@ -7,14 +7,12 @@
  * Usage: npm run pricing:demo [cafe|bar|restaurant]
  */
 import { computeMonthlyRecommendation } from "./algorithm";
-import { generateSyntheticMonth, type Archetype } from "./syntheticData";
+import {
+  ARCHETYPE_OPEN_HOURS as OPEN_HOURS,
+  generateSyntheticMonth,
+  type Archetype,
+} from "./syntheticData";
 import { DEFAULT_PRICING_CONFIG, type HourlyPerformance, type VenuePricingConfig } from "./types";
-
-const OPEN_HOURS: Record<Archetype, number[]> = {
-  cafe: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-  bar: [16, 17, 18, 19, 20, 21, 22, 23, 0, 1],
-  restaurant: [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
-};
 
 function stddev(values: number[]): number {
   const mean = values.reduce((a, b) => a + b, 0) / values.length;
@@ -84,9 +82,7 @@ function run(archetype: Archetype, months = 6) {
     console.log("");
 
     // "Business approves" — next month goes live with these discounts.
-    liveDiscounts = Object.fromEntries(
-      rec.hours.map((h) => [h.hour, h.recommendedDiscountPct]),
-    );
+    liveDiscounts = Object.fromEntries(rec.hours.map((h) => [h.hour, h.recommendedDiscountPct]));
   }
 }
 

@@ -67,15 +67,26 @@ Both eventually feed off the same event stream (see below).
 - `demo.ts` — runs a multi-month simulation (approve → apply → regenerate
   data → recompute), printing the recommendation table each month. Run
   with `npm run pricing:demo [cafe|bar|restaurant]`.
+- `pricing.functions.ts` + the admin "תמחור חכם" tab (`/admin`, see
+  `docs/ADMIN.md`) — `generateDemoRecommendation` runs the same loop as
+  `demo.ts` server-side (still on synthetic data — no real venue history
+  exists yet) so there's a real screen to approve/reject a recommendation
+  from, not just a terminal script. Approving/rejecting persists a row to
+  `pricing_recommendations` (venue label, month, the hour-by-hour table,
+  who decided and when) via `saveRecommendationDecision` — a real audit
+  trail, even before it's driven by real data.
 
 ## Not built yet (needs a decision first, not just code)
 
-- **Supabase schema** for real `HourlyPerformance` rows and stored
-  `MonthlyRecommendation`s — waiting on the anonymous tracking phase to
-  exist, since that's what will populate it.
-- **Approval UI** for a business to review/tweak/approve next month's
-  schedule.
-- **The monthly job** that actually runs this per venue and notifies the
-  business.
+- **Supabase schema for real `HourlyPerformance` rows** — waiting on the
+  anonymous tracking phase to exist, since that's what will populate it.
+  (`pricing_recommendations`, the *output* side, already exists — see
+  `supabase/migrations/20260922162854_pricing_recommendations.sql`.)
+- **Wiring a real venue's history into `generateDemoRecommendation`**
+  instead of a picked archetype — once a venue has real events, swap the
+  synthetic `history` for real `HourlyPerformance[]` from that venue; the
+  algorithm itself doesn't change.
+- **The monthly job** that runs this automatically per real venue and
+  notifies the business, instead of an admin triggering it by hand.
 - Exact elasticity/uplift numbers here are for the synthetic demo only —
   not a claim about how real discounts move real demand.
